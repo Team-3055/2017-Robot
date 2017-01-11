@@ -20,6 +20,7 @@ private:
 	Talon *lDMotor = new Talon(0);
 	Spark *rDMotor = new Spark(1);
 
+	//Joystick Key Declarations
 
 	//Motor declarations
 	double lDrive, rDrive;
