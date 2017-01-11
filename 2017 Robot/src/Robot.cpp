@@ -17,8 +17,8 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *lDMotor = new Talon(0);
-	Spark *rDMotor = new Spark(1);
+	Talon *lDMotor = new Talon(1);
+	Spark *rDMotor = new Spark(0);
 
 	//Joystick Key Declarations
 	//
