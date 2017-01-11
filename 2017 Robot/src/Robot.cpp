@@ -13,8 +13,8 @@ private:
 	std::string autoSelected;
 
 	//Control System
-	Joystick *xbox = new Joystick(0);
-	Joystick *xbox2 = new Joystick(1);
+	Joystick *joystick = new Joystick(0);
+	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
 	Talon *lDMotor = new Talon(0);
@@ -73,8 +73,8 @@ private:
 	void TeleopPeriodic()
 	{
 		 //Tank Drive
-		rDrive= xbox->GetRawAxis(1);
-		lDrive= xbox2->GetRawAxis(1);
+		rDrive= joystick->GetRawAxis(1);
+		lDrive= joystick2->GetRawAxis(1);
 		robotDrive->TankDrive(lDrive, rDrive);
 	}
 
