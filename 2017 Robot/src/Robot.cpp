@@ -7,7 +7,7 @@ class Robot: public IterativeRobot
 {
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
-	SendableChooser *chooser;
+	//SendableChooser *chooser;
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
@@ -17,8 +17,8 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *lDMotor = new Talon(1);
-	Spark *rDMotor = new Spark(0);
+	Talon *rDMotor = new Talon(0);
+	Spark *lDMotor = new Spark(1);
 
 	//Joystick Key Declarations
 	//
@@ -30,10 +30,10 @@ private:
 
 	void RobotInit()
 	{
-		chooser = new SendableChooser();
-		chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
-		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
-		SmartDashboard::PutData("Auto Modes", chooser);
+		//chooser = new SendableChooser();
+		//chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
+		//chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
+		//SmartDashboard::PutData("Auto Modes", chooser);
 	}
 
 
@@ -76,9 +76,9 @@ private:
 	void TeleopPeriodic()
 	{
 		 //Tank Drive
-		rDrive= joystick->GetRawAxis(1);
-		lDrive= joystick2->GetRawAxis(1);
-		robotDrive->TankDrive(lDrive, rDrive);
+		lDrive= joystick->GetRawAxis(1);
+		rDrive= joystick2->GetRawAxis(1);
+		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
 	void TestPeriodic()
