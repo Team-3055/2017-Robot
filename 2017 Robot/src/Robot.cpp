@@ -23,8 +23,8 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *lDMotor = new Talon(0);
-	Spark *rDMotor = new Spark(1);
+	Talon *rDMotor = new Talon(0);
+	Spark *lDMotor = new Spark(1);
 
 	//Joystick Key Declarations
 	//
@@ -74,9 +74,9 @@ private:
 				visionThread.detach();
 
 		chooser = new SendableChooser();
-		chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
-		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
-		SmartDashboard::PutData("Auto Modes", chooser);
+		//chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
+		//chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
+		//SmartDashboard::PutData("Auto Modes", chooser);
 	}
 
 
@@ -119,9 +119,9 @@ private:
 	void TeleopPeriodic()
 	{
 		 //Tank Drive
-		rDrive= joystick->GetRawAxis(1);
-		lDrive= joystick2->GetRawAxis(1);
-		robotDrive->TankDrive(lDrive, rDrive);
+		rDrive= joystick2->GetRawAxis(1);
+		lDrive= joystick->GetRawAxis(1);
+		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
 	void TestPeriodic()
