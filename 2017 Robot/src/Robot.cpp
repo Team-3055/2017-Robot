@@ -13,7 +13,7 @@ class Robot: public IterativeRobot
 {
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
-	SendableChooser *chooser;
+	//SendableChooser *chooser;
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
@@ -73,7 +73,7 @@ private:
 				std::thread visionThread(VisionThread);
 				visionThread.detach();
 
-		chooser = new SendableChooser();
+		//chooser = new SendableChooser();
 		//chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
 		//chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
 		//SmartDashboard::PutData("Auto Modes", chooser);
