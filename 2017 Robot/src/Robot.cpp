@@ -23,8 +23,10 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *rDMotor = new Talon(0);
-	Spark *lDMotor = new Spark(1);
+	Talon *rFMotor = new Talon(0);
+	Talon *lFMotor = new Talon(1);
+	Talon *rRMotor = new Talon(2);
+	Talon *lRMotor = new Talon(3);
 
 	//Joystick Key Declarations
 	//
@@ -32,7 +34,7 @@ private:
 
 	//Motor declarations
 	double lDrive, rDrive;
-	RobotDrive *robotDrive = new RobotDrive(lDMotor,rDMotor);
+	RobotDrive *robotDrive = new RobotDrive(lFMotor,lRMotor,rFMotor,rRMotor);
 
 	//Vision Code
 	static void VisionThread() {
