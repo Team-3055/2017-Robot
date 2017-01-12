@@ -68,10 +68,13 @@ private:
 		}
 	void RobotInit()
 	{
+
 		// We need to run our vision program in a separate Thread.
 				// If not, our robot program will not run
 				std::thread visionThread(VisionThread);
 				visionThread.detach();
+
+
 
 		//chooser = new SendableChooser();
 		//chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
@@ -121,6 +124,7 @@ private:
 		 //Tank Drive
 		rDrive= joystick2->GetRawAxis(1);
 		lDrive= joystick->GetRawAxis(1);
+
 		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
