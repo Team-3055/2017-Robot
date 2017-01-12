@@ -23,6 +23,8 @@ private:
 	//Joystick Key Declarations
 	//
 
+	//Non-driving control
+	Controller *Xbox = new Xbox
 
 	//Motor declarations
 	double lDrive, rDrive;
@@ -76,8 +78,8 @@ private:
 	void TeleopPeriodic()
 	{
 		 //Tank Drive
-		lDrive= joystick->GetRawAxis(1);
 		rDrive= joystick2->GetRawAxis(1);
+		lDrive= joystick->GetRawAxis(1);
 		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
