@@ -23,14 +23,16 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *rFMotor = new Talon(0);
-	Talon *lFMotor = new Talon(1);
-	Talon *rRMotor = new Talon(2);
-	Talon *lRMotor = new Talon(3);
+	Talon *lFMotor = new Talon(0);
+	Talon *rFMotor = new Talon(1);
+	Talon *lRMotor = new Talon(2);
+	Talon *rRMotor = new Talon(3);
 
 	//Joystick Key Declarations
 	//
 
+	//sound control
+	//Xbox x button = Make "Caw-Caw" sound
 
 	//Motor declarations
 	double lDrive, rDrive;
@@ -127,7 +129,7 @@ private:
 		rDrive= joystick2->GetRawAxis(1);
 		lDrive= joystick->GetRawAxis(1);
 
-		robotDrive->TankDrive(-lDrive, -rDrive);
+		robotDrive->ArcadeDrive(-lDrive, -rDrive);
 	}
 
 	void TestPeriodic()
