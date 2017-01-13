@@ -19,8 +19,9 @@ private:
 	std::string autoSelected;
 
 	//Control System
-	Joystick *joystick = new Joystick(0);
-	Joystick *joystick2 = new Joystick(1);
+	Joystick *xy_joystick = new Joystick(0);
+	Joystick *z_joystick = new Joystick(1);
+
 
 	//Motor Controller Declarations
 	Talon *lFMotor = new Talon(0);
@@ -35,8 +36,11 @@ private:
 	//Xbox x button = Make "Caw-Caw" sound
 
 	//Motor declarations
-	double lDrive, rDrive;
+	double xDrive, yDrive, zDrive;
 	RobotDrive *robotDrive = new RobotDrive(lFMotor,lRMotor,rFMotor,rRMotor);
+
+
+
 
 	//Vision Code
 	static void VisionThread() {
@@ -125,11 +129,12 @@ private:
 
 	void TeleopPeriodic()
 	{
-		 //Tank Drive
-		rDrive= joystick2->GetRawAxis(1);
-		lDrive= joystick->GetRawAxis(1);
+		 //Mechanum Drive
+		xDrive= xy_joystick->GetRawAxis(2);
+		yDrive= xy_joystick->GetRawAxis(1);
+		zDrive= z_joystick->GetRawAxis(2);
 
-		robotDrive->ArcadeDrive(-lDrive, -rDrive);
+		robotDrive->MecanumDrive_Cartesian(xDrive, yDrive, zDrive);
 	}
 
 	void TestPeriodic()
