@@ -27,10 +27,8 @@ private:
 	Spark *lDMotor = new Spark(1);
 
 	//Joystick Key Declarations
-	//
 
 	//Ultrasonic Add
-
 
 
 	//Motor declarations
@@ -126,8 +124,7 @@ private:
 	{
 		 //Tank Drive
 		rDrive= joystick2->GetRawAxis(1);
-		lDrive= joystick->GetRawAxis(1);
-
+		lDrive= joystick->GetRawAxis(1)
 		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
