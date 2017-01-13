@@ -23,8 +23,15 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *rDMotor = new Talon(0);
-	Spark *lDMotor = new Spark(1);
+	Talon *lFMotor = new Talon(0);
+	Talon *lRMotor = new Talon(1);
+	Talon *rFMotor = new Talon(2);
+	Talon *rRMotor = new Talon(3);
+	Talon *cFMotor = new Talon(4);
+	Talon *cRMotor = new Talon(5);
+
+
+
 
 	//Joystick Key Declarations
 
@@ -32,8 +39,10 @@ private:
 
 
 	//Motor declarations
-	double lDrive, rDrive;
-	RobotDrive *robotDrive = new RobotDrive(lDMotor,rDMotor);
+	double lDrive, rDrive, lSDrive, rSDrive;
+	RobotDrive *robotDrive = new RobotDrive(lFMotor,lRMotor, rFMotor, rRMotor);
+	RobotDrive *strafeDrive = new RobotDrive(cFMotor,cRMotor);
+
 
 	//Vision Code
 	static void VisionThread() {
@@ -122,11 +131,22 @@ private:
 
 	void TeleopPeriodic()
 	{
-		 //Tank Drive
+		 //Forward Back Tank Drive
 		rDrive= joystick2->GetRawAxis(1);
-		lDrive= joystick->GetRawAxis(1)
+		lDrive= joystick->GetRawAxis(1);
+
+		//Strafe Tank Drive
+		lSDrive = joystick2->GetRawAxis(2);
+		rSDrive = joystick2->GetRawAxis(2);
+
+		//FB Tank
 		robotDrive->TankDrive(-lDrive, -rDrive);
+
+		//Strafe Tank
+		strafeDrive->TankDrive(-lSDrive,rSDrive);
+
 	}
+
 
 	void TestPeriodic()
 	{
