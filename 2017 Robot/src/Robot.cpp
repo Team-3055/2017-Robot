@@ -29,7 +29,7 @@ private:
 	//Joystick Key Declarations
 
 	//Ultrasonic Add
-
+	Ultrasonic *ultra;
 
 	//Motor declarations
 	double lDrive, rDrive;
@@ -67,6 +67,19 @@ private:
 				outputStream.PutFrame(mat);
 			}
 		}
+
+	//Ultrasonic Code
+	static void Ultrasonic() {
+		//Assign Ultra to be an ultrasonic sensor which uses DigitalOutput 1 for the echo pulse and DigitalInput 1 for the trigger pulse
+		Ultra = new Ultrasonic(1,1);
+		//Turn on Automatic mode
+		Ultra->SetAutomaticMode(true);
+	}
+
+	void Teleop() {
+		//Reads the range on the Ultrasonic sensor
+		int range = Ultra->GetRangeInches();
+	}
 	void RobotInit()
 	{
 
