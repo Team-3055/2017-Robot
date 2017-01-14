@@ -124,7 +124,7 @@ private:
 	{
 		 //Tank Drive
 		rDrive= joystick2->GetRawAxis(1);
-		lDrive= joystick->GetRawAxis(1)
+		lDrive= joystick->GetRawAxis(1);
 		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
