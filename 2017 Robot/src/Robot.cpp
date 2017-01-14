@@ -23,13 +23,13 @@ private:
 	Joystick *joystick2 = new Joystick(1);
 
 	//Motor Controller Declarations
-	Talon *rDMotor = new Talon(0);
-	Spark *lDMotor = new Spark(1);
+	Talon *lDMotor = new Talon(1);
+	Spark *rDMotor = new Spark(0);
 
 	//Joystick Key Declarations
 
 	//Ultrasonic Add
-	Ultrasonic *ultra;
+	//Ultrasonic *ultra;
 
 	//Motor declarations
 	double lDrive, rDrive;
@@ -69,16 +69,16 @@ private:
 		}
 
 	//Ultrasonic Code
-	static void Ultrasonic() {
-		//Assign Ultra to be an ultrasonic sensor which uses DigitalOutput 1 for the echo pulse and DigitalInput 1 for the trigger pulse
-		Ultra = new Ultrasonic(1,1);
-		//Turn on Automatic mode
-		Ultra->SetAutomaticMode(true);
-	}
+	//static void Ultrasonic() {
+		//Assign ultra to be an ultrasonic sensor which uses DigitalOutput 1 for the echo pulse and DigitalInput 1 for the trigger pulse
+		//ultra = new ultrasonic(1,1);
+	//Turn on Automatic mode
+		//ultra->SetAutomaticMode(true);
+	//}
 
 	void Teleop() {
 		//Reads the range on the Ultrasonic sensor
-		int range = Ultra->GetRangeInches();
+		//int range = ultra->GetRangeInches();
 	}
 	void RobotInit()
 	{
@@ -137,7 +137,7 @@ private:
 	{
 		 //Tank Drive
 		rDrive= joystick2->GetRawAxis(1);
-		lDrive= joystick->GetRawAxis(1)
+		lDrive= joystick->GetRawAxis(1);
 		robotDrive->TankDrive(-lDrive, -rDrive);
 	}
 
