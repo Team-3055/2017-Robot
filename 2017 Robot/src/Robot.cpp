@@ -19,8 +19,8 @@ private:
 	std::string autoSelected;
 
 	//Control System
-	Joystick *xy_joystick = new Joystick(0);
-	Joystick *z_joystick = new Joystick(1);
+	Joystick *l_joystick = new Joystick(0);
+	Joystick *r_joystick = new Joystick(1);
 
 
 	//Motor Controller Declarations
@@ -130,11 +130,12 @@ private:
 	void TeleopPeriodic()
 	{
 		 //Mechanum Drive
-		xDrive= xy_joystick->GetRawAxis(2);
-		yDrive= xy_joystick->GetRawAxis(1);
-		zDrive= z_joystick->GetRawAxis(2);
+		xDrive= l_joystick->GetRawAxis(0);
+		yDrive= r_joystick->GetRawAxis(0);
+		zDrive= r_joystick->GetRawAxis(1);
 
-		robotDrive->MecanumDrive_Cartesian(xDrive, yDrive, zDrive);
+		robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+
 	}
 
 	void TestPeriodic()
