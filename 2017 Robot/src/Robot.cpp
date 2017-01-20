@@ -129,10 +129,24 @@ private:
 
 	void TeleopPeriodic()
 	{
-		 //Mechanum Drive
-		xDrive= l_joystick->GetRawAxis(0);
-		yDrive= r_joystick->GetRawAxis(0);
-		zDrive= r_joystick->GetRawAxis(1);
+
+		if( l_joystick->GetRawAxis(0)>.1|| l_joystick->GetRawAxis(0)<-.1){
+			xDrive= l_joystick->GetRawAxis(0);
+		}
+
+		if( r_joystick->GetRawAxis(0)>.1|| r_joystick->GetRawAxis(0)<-.1){
+			yDrive= r_joystick->GetRawAxis(0);
+		}
+
+		if( r_joystick->GetRawAxis(1)>.1|| r_joystick->GetRawAxis(1)<-.1){
+			zDrive= r_joystick->GetRawAxis(1);
+		}
+
+
+		//Mechanum Drive
+		//xDrive= l_joystick->GetRawAxis(0);
+		//yDrive= r_joystick->GetRawAxis(0);
+		//zDrive= r_joystick->GetRawAxis(1);
 
 		robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
 
