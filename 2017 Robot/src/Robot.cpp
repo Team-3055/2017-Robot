@@ -18,9 +18,10 @@ private:
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
 
-	//Control System
+	//Control System of wheels
 	Joystick *l_joystick = new Joystick(0);
 	Joystick *r_joystick = new Joystick(1);
+	Joystick *xbox = new Joystick(2);
 
 
 	//Motor Controller Declarations
@@ -28,6 +29,8 @@ private:
 	Talon *rFMotor = new Talon(1);
 	Talon *lRMotor = new Talon(2);
 	Talon *rRMotor = new Talon(3);
+	Spark *lShooter = new Spark(4);
+	Spark *rShooter = new Spark(5);
 
 	//Joystick Key Declarations
 	//
@@ -130,17 +133,30 @@ private:
 	void TeleopPeriodic()
 	{
 
-		if( l_joystick->GetRawAxis(0)>.1|| l_joystick->GetRawAxis(0)<-.1){
+		if( l_joystick->GetRawAxis(0)<.2|| l_joystick->GetRawAxis(0)>-.2){
 			xDrive= l_joystick->GetRawAxis(0);
 		}
 
-		if( r_joystick->GetRawAxis(0)>.1|| r_joystick->GetRawAxis(0)<-.1){
+		if( r_joystick->GetRawAxis(0)<.2|| r_joystick->GetRawAxis(0)>-.2){
 			yDrive= r_joystick->GetRawAxis(0);
 		}
 
-		if( r_joystick->GetRawAxis(1)>.1|| r_joystick->GetRawAxis(1)<-.1){
+		if( r_joystick->GetRawAxis(1)<.2|| r_joystick->GetRawAxis(1)>-.2){
 			zDrive= r_joystick->GetRawAxis(1);
 		}
+		 //Shooter
+		 if(xbox->GetRawButton(1)){
+		  	lShooter->Set(-.25);
+		 	rShooter->Set(.25);
+		 if(xbox->GetRawButton(2)){
+			 lShooter->Set(-.1);
+			 rShooter->Set(.1);
+
+		 }
+		 }else{
+		 	lShooter->Set(0);
+		 	rShooter->Set(0);
+		 	 }
 
 
 		//Mechanum Drive
