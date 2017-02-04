@@ -21,7 +21,6 @@ private:
 	//Control System of wheels
 	Joystick *l_joystick = new Joystick(0);
 	Joystick *r_joystick = new Joystick(1);
-	Joystick *xbox = new Joystick(2);
 
 
 	//Motor Controller Declarations
@@ -31,9 +30,8 @@ private:
 	Talon *rRMotor = new Talon(3);
 	Spark *lShooter = new Spark(4);
 	Spark *rShooter = new Spark(5);
+	Talon *ropeClimb = new Talon(6);
 
-	//Joystick Key Declarations
-	//
 
 	//sound control
 	//Xbox x button = Make "Caw-Caw" sound
@@ -71,7 +69,7 @@ private:
 					continue;
 				}
 				// Put a rectangle on the image
-				rectangle(mat, cv::Point(100, 100), cv::Point(400, 400),
+				rectangle(mat, cv::Point(240, 160), cv::Point(400, 320),
 						cv::Scalar(255, 255, 255), 5);
 				// Give the output stream a new image to display
 				outputStream.PutFrame(mat);
@@ -133,6 +131,8 @@ private:
 	void TeleopPeriodic()
 	{
 
+
+
 		if( l_joystick->GetRawAxis(0)<.2|| l_joystick->GetRawAxis(0)>-.2){
 			xDrive= l_joystick->GetRawAxis(0);
 		}
@@ -144,20 +144,25 @@ private:
 		if( r_joystick->GetRawAxis(1)<.2|| r_joystick->GetRawAxis(1)>-.2){
 			zDrive= r_joystick->GetRawAxis(1);
 		}
-		 //Shooter
-		 if(xbox->GetRawButton(1)){
-		  	lShooter->Set(-.25);
-		 	rShooter->Set(.25);
-		 if(xbox->GetRawButton(2)){
-			 lShooter->Set(-.1);
-			 rShooter->Set(.1);
 
-		 }
+
+
+		 //Shooter
+		 if(r_joystick->GetRawButton(1)){
+		  	lShooter->Set(-.5);
+		 	rShooter->Set(.5);
+
 		 }else{
 		 	lShooter->Set(0);
 		 	rShooter->Set(0);
 		 	 }
 
+		 if(r_joystick->GetRawButton(2)){
+		 		  	ropeClimb->Set(-.5);
+
+		 		 }else{
+		 		 	ropeClimb->Set(0);
+		 		 			 		 	 }
 
 		//Mechanum Drive
 		//xDrive= l_joystick->GetRawAxis(0);
