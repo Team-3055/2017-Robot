@@ -9,14 +9,19 @@
 #include <opencv2/core/types.hpp>
 using namespace std;
 
+
+
 class Robot: public IterativeRobot
 {
+
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
 	//SendableChooser *chooser;
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
+
+
 
 	//Control System of wheels
 	Joystick *l_joystick = new Joystick(0);
@@ -30,7 +35,9 @@ private:
 	Talon *rRMotor = new Talon(3);
 	Spark *lShooter = new Spark(4);
 	Spark *rShooter = new Spark(5);
-	Talon *ropeClimb = new Talon(6);
+	Spark *ropeClimb = new Spark(6);
+
+
 
 
 	//sound control
@@ -40,11 +47,18 @@ private:
 	double xDrive, yDrive, zDrive;
 	RobotDrive *robotDrive = new RobotDrive(lFMotor,lRMotor,rFMotor,rRMotor);
 
-
+	//Ultrasonic Code
+	AnalogInput *ai = new AnalogInput(7);
+	int raw = ai->GetValue();
+	double volts = ai->GetVoltage();
+	//ai->SetAccumulatorInitialValue(0);
+	//ai->SetAccumulatorCenter(0);
+	//ai->SetAccumulatorDeadband(10);
 
 
 	//Vision Code
-	static void VisionThread() {
+	static void VisionThread()
+	{
 			// Get the USB camera from CameraServer
 			cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
 			// Set the resolution
@@ -75,6 +89,10 @@ private:
 				outputStream.PutFrame(mat);
 			}
 		}
+
+
+
+
 	void RobotInit()
 	{
 
@@ -132,10 +150,10 @@ private:
 	{
 
 
-
 		if( l_joystick->GetRawAxis(0)<.2|| l_joystick->GetRawAxis(0)>-.2){
 			xDrive= l_joystick->GetRawAxis(0);
 		}
+
 
 		if( r_joystick->GetRawAxis(0)<.2|| r_joystick->GetRawAxis(0)>-.2){
 			yDrive= r_joystick->GetRawAxis(0);
@@ -149,20 +167,28 @@ private:
 
 		 //Shooter
 		 if(r_joystick->GetRawButton(1)){
-		  	lShooter->Set(-.5);
-		 	rShooter->Set(.5);
+		  	lShooter->Set(.75);
+		 	rShooter->Set(.75);
 
-		 }else{
+		 }
+		 else{
 		 	lShooter->Set(0);
 		 	rShooter->Set(0);
 		 	 }
 
-		 if(r_joystick->GetRawButton(2)){
-		 		  	ropeClimb->Set(-.5);
+		 if(r_joystick->GetRawButton(3)){
+			  	ropeClimb->Set(1);
+		 }
 
-		 		 }else{
+		 if(r_joystick->GetRawButton(4)){
+			    ropeClimb->Set(-1);
+
+		 		 }
+		 else{
 		 		 	ropeClimb->Set(0);
-		 		 			 		 	 }
+		 	 }
+
+
 
 		//Mechanum Drive
 		//xDrive= l_joystick->GetRawAxis(0);
@@ -171,12 +197,15 @@ private:
 
 		robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
 
-	}
+		  }
 
-	void TestPeriodic()
-	{
-		lw->Run();
-	}
-};
 
-START_ROBOT_CLASS(Robot)
+
+	 void TestPeriodic()
+		 {
+
+			 lw->Run();
+		 }
+	};
+
+	START_ROBOT_CLASS(Robot)
