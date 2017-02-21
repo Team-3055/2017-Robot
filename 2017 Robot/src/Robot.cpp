@@ -7,25 +7,64 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types.hpp>
+#include <LiveWindow/LiveWindow.h>
+#include <SmartDashboard/SendableChooser.h>
+#include <SmartDashboard/SmartDashboard.h>
+#include <Joystick.h>
+#include <RobotDrive.h>
+#include <SampleRobot.h>
+#include <Timer.h>
 using namespace std;
 
 
 
 class Robot: public IterativeRobot
 {
+//public:
+	//Robot() {
+		//robotDrive.SetExpiration(0.1);
 
+		// Invert the left side motors
+		//robotDrive.SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
+
+		// You may need to change or remove this to match your robot
+		//robotDrive.SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
+	//}
+
+	/**
+	 * Runs the motors with Mecanum drive.
+	 */
+	//void OperatorControl() override {
+		//robotDrive.SetSafetyEnabled(false);
+		//while (IsOperatorControl() && IsEnabled()) {
+			/* Use the joystick X axis for lateral movement, Y axis for forward
+			 * movement, and Z axis for rotation. This sample does not use
+			 * field-oriented drive, so the gyro input is set to zero.
+			 */
+			//robotDrive.MecanumDrive_Cartesian(stick.GetX(), stick.GetY(),
+			//		stick.GetZ());
+
+			//frc::Wait(0.005); // wait 5ms to avoid hogging CPU cycles
+		//}
+	//}
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
-	//SendableChooser *chooser;
-	const std::string autoNameDefault = "Default";
-	const std::string autoNameCustom = "My Auto";
+	frc::SendableChooser<std::string> chooser;
+	const std::string autoNameDefault = "No Auto";
+	const std::string autoNameCustom = "Left";
+	const std::string autoNameCustom1 = "Right";
+	const std::string autoNameCustom2 = "Center";
 	std::string autoSelected;
 
-
+	int n = 0;
+	int u = 0;
+	int t = 0;
+	int e = 0;
+	int p = 0;
 
 	//Control System of wheels
-	Joystick *l_joystick = new Joystick(0);
-	Joystick *r_joystick = new Joystick(1);
+	Joystick *l_joystick = new Joystick(1);
+	Joystick *r_joystick = new Joystick(0);
 
 
 	//Motor Controller Declarations
@@ -41,19 +80,23 @@ private:
 
 
 	//sound control
-	//Xbox x button = Make "Caw-Caw" sound
+	//Xbox A button = Make "Caw-Caw" sound
+	//Xbox Y button = Shout "but how does the robot feel"
 
 	//Motor declarations
 	double xDrive, yDrive, zDrive;
 	RobotDrive *robotDrive = new RobotDrive(lFMotor,lRMotor,rFMotor,rRMotor);
 
+	// Invert the left side motors
+			//robotDrive->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
+
+			// You may need to change or remove this to match your robot
+			//robotDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
+
 	//Ultrasonic Code
 	AnalogInput *ai = new AnalogInput(7);
 	int raw = ai->GetValue();
 	double volts = ai->GetVoltage();
-	//ai->SetAccumulatorInitialValue(0);
-	//ai->SetAccumulatorCenter(0);
-	//ai->SetAccumulatorDeadband(10);
 
 
 	//Vision Code
@@ -102,7 +145,11 @@ private:
 				visionThread.detach();
 
 
-
+				chooser.AddDefault(autoNameDefault, autoNameDefault);
+						chooser.AddObject(autoNameCustom, autoNameCustom);
+						chooser.AddObject(autoNameCustom1, autoNameCustom1);
+						chooser.AddObject(autoNameCustom2, autoNameCustom2);
+						frc::SmartDashboard::PutData("Auto Modes", &chooser);
 		//chooser = new SendableChooser();
 		//chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
 		//chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
@@ -119,21 +166,75 @@ private:
 	 * You can add additional auto modes by adding additional comparisons to the if-else structure below with additional strings.
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
-	void AutonomousInit()
-	{
-		//autoSelected = *((std::string*)chooser->GetSelected());
-		//std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
-		//std::cout << "Auto selected: " << autoSelected << std::endl;
+	void AutonomousInit() override {
+			autoSelected = chooser.GetSelected();
+			std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
+			std::cout << "Auto selected: " << autoSelected << std::endl;
 
-		//if(autoSelected == autoNameCustom){
-			//Custom Auto goes here
-		//} else {
-			//Default Auto goes here
-		//}
-	}
+			if (autoSelected == autoNameCustom) {
+				// Custom Auto goes here
+			} else {
+				// Default Auto goes here
+			}
+		}
 
 	void AutonomousPeriodic()
 	{
+
+		if (n<155){
+			yDrive=(-.3);
+			robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+			n++;
+			//Drives Robot Forward initially on auto
+		}
+
+		if (p<15 && n>=155){p++;
+			//pause
+		}
+
+		if (t<10 && n>=155 && p>=15){
+			zDrive=(-.3);
+			robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+			t++;
+			//Turns Robot to left
+		}
+
+		if (n<100){
+			//pause
+		}
+
+		if (e<20 && t>=10 && n>=155){
+			yDrive=(-.3);
+			robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+			e++;
+			//Drives forward after turn
+		}
+
+
+
+
+		//if (u<5 && e>=20 && t>=15 && n>=50){
+		//	yDrive=(.5);
+		//	robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+		//	u++;
+			//Puts Robot in reverse shortly
+		//}
+
+
+		//if (n<250 && autoSelected == autoNameCustom1){
+		//			yDrive=(-.5);
+		//			robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+		//			n++;
+		//		}
+
+		//if (n<250 && autoSelected == autoNameCustom2){
+			//		yDrive=(-.5);
+			//		robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+			//		n++;
+		//		}
+				else {robotDrive->TankDrive(0,0,0,0);
+				}
+
 		//if(autoSelected == autoNameCustom){
 			//Custom Auto goes here
 		//} else {
@@ -156,11 +257,11 @@ private:
 
 
 		if( r_joystick->GetRawAxis(0)<.2|| r_joystick->GetRawAxis(0)>-.2){
-			yDrive= r_joystick->GetRawAxis(0);
+			zDrive= r_joystick->GetRawAxis(0);
 		}
 
 		if( r_joystick->GetRawAxis(1)<.2|| r_joystick->GetRawAxis(1)>-.2){
-			zDrive= r_joystick->GetRawAxis(1);
+			yDrive= r_joystick->GetRawAxis(1);
 		}
 
 
@@ -195,7 +296,7 @@ private:
 		//yDrive= r_joystick->GetRawAxis(0);
 		//zDrive= r_joystick->GetRawAxis(1);
 
-		robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+		robotDrive->MecanumDrive_Cartesian(xDrive, yDrive, zDrive);
 
 		  }
 
