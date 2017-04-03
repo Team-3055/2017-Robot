@@ -7,6 +7,9 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types.hpp>
+#include <GripPipeline.h>
+
+
 using namespace std;
 
 class Robot: public IterativeRobot
@@ -25,6 +28,9 @@ private:
 	//Motor Controller Declarations
 	Talon *rDMotor = new Talon(0);
 	Spark *lDMotor = new Spark(1);
+
+	//Grip Pipeline
+	GripPipeline::GripPipeline *camera1 = new GripPipeline();
 
 	//Joystick Key Declarations
 
