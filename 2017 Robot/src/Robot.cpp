@@ -65,6 +65,7 @@ private:
 	//Control System of wheels
 	Joystick *l_joystick = new Joystick(1);
 	Joystick *r_joystick = new Joystick(0);
+	//Joystick *xbox = new Joystick(0);
 
 
 	//Motor Controller Declarations
@@ -94,9 +95,9 @@ private:
 			//robotDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 
 	//Ultrasonic Code
-	AnalogInput *ai = new AnalogInput(7);
-	int raw = ai->GetValue();
-	double volts = ai->GetVoltage();
+	//AnalogInput *ai = new AnalogInput(7);
+	//int raw = ai->GetValue();
+	//double volts = ai->GetVoltage();
 
 
 	//Vision Code
@@ -188,27 +189,27 @@ private:
 			//Drives Robot Forward initially on auto
 		}
 
-		if (p<15 && n>=155){p++;
+		//if (p<15 && n>=155){p++;
 			//pause
-		}
+		//}
 
-		if (t<10 && n>=155 && p>=15){
-			zDrive=(-.3);
-			robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
-			t++;
+		//if (t<10 && n>=155 && p>=15){
+			//zDrive=(-.3);
+			//robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+			//t++;
 			//Turns Robot to left
-		}
+		//}
 
-		if (n<100){
+		//if (n<100){
 			//pause
-		}
+		//}
 
-		if (e<20 && t>=10 && n>=155){
-			yDrive=(-.3);
-			robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
-			e++;
+		//if (e<20 && t>=10 && n>=155){
+			//yDrive=(-.3);
+			//robotDrive->MecanumDrive_Cartesian(.75*xDrive, -.75*yDrive, -.75*zDrive);
+			//e++;
 			//Drives forward after turn
-		}
+		//}
 
 
 
@@ -240,6 +241,9 @@ private:
 		//} else {
 			//Default Auto goes here
 		//}
+
+
+		//pls fly
 	}
 
 	void TeleopInit()
@@ -260,28 +264,41 @@ private:
 			zDrive= r_joystick->GetRawAxis(0);
 		}
 
-		if( r_joystick->GetRawAxis(1)<.2|| r_joystick->GetRawAxis(1)>-.2){
+		//if( r_joystick->GetRawAxis(1)<.2|| r_joystick->GetRawAxis(1)>-.2){
 			yDrive= r_joystick->GetRawAxis(1);
 		}
+
+
+		//xbox controls
+		//xDrive= xbox->GetRawAxis(4);
+		//zDrive= xbox->GetRawAxis(0);
+		//yDrive= xbox->GetRawAxis(1);
+
+
 
 
 
 		 //Shooter
 		 if(r_joystick->GetRawButton(1)){
+		//if(xbox->GetRawButton(1)){
 		  	lShooter->Set(.75);
 		 	rShooter->Set(.75);
 
 		 }
+
 		 else{
 		 	lShooter->Set(0);
 		 	rShooter->Set(0);
 		 	 }
 
 		 if(r_joystick->GetRawButton(3)){
+		//if(xbox->GetRawButton(4)){
+
 			  	ropeClimb->Set(1);
 		 }
 
 		 if(r_joystick->GetRawButton(4)){
+		//if(xbox->GetRawButton(2)){
 			    ropeClimb->Set(-1);
 
 		 		 }
@@ -296,7 +313,7 @@ private:
 		//yDrive= r_joystick->GetRawAxis(0);
 		//zDrive= r_joystick->GetRawAxis(1);
 
-		robotDrive->MecanumDrive_Cartesian(xDrive, yDrive, zDrive);
+		robotDrive->MecanumDrive_Cartesian(xDrive*0, yDrive*.15, zDrive*0);
 
 		  }
 
